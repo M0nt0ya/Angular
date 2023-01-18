@@ -1,69 +1,80 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient as HttpClient} from '@angular/common/http';
+import { HttpClient as HttpClient } from '@angular/common/http';
+import { ProductHttpServiceService } from 'src/app/services/product-http-services.service';
+
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
-export class ProductComponent {
-  constructor(private httpClient: HttpClient) {}
+export class ProductComponent implements OnInit {
+  constructor(private productHttpService: ProductHttpServiceService) { }
 
-  ngOnInit(): void{
+
+  ngOnInit(): void {
     //this.getProducts();
     //this.getProduct();
-    //this.createProduct();
+    this.createProduct();
     //this.updateProduct();
-    this.deleteProduct();
+    //this.deleteProduct();
   }
 
-  getProducts():void{
-    const url ="https://api.escuelajs.co/api/v1/products";
-    const response = this.httpClient.get(url).subscribe
-    (response => {console.log(response);
-    });
+
+  getProducts(): void {
+    const response = this.productHttpService.getAll().subscribe
+      (response => {
+        console.log(response);
+      });
   }
 
-  getProduct(){
-    const url ="https://api.escuelajs.co/api/v1/products/20";
-    const response = this.httpClient.get(url).subscribe
-    (response => {console.log(response);
-    });
+
+  getProduct() {
+    const response = this.productHttpService.getOne().subscribe
+      (response => {
+        console.log(response);
+      });
   }
 
-  createProduct(){
+
+  createProduct() {
     const data = {
-      title:"Licras",
-      price:10,
-      description:"ropa / Andres Barriga",
-      images:["https://empresas.blogthinkbig.com/wp-content/uploads/2019/11/Imagen3-245003649.jpg?w=800"],
-      categoryId:1
+      title: "Licras",
+      price: 10,
+      description: "Ropa / Andres",
+      images: ["https://empresas.blogthinkbig.com/wp-content/uploads/2019/11/Imagen3-245003649.jpg?w=800"],
+      categoryId: 1
     }
-    const url = "https://api.escuelajs.co/api/v1/products";
-    this.httpClient.post(url, data).subscribe(
-      response => {console.log(response);
+    this.productHttpService.store(data).subscribe(
+      response => {
+        console.log(response);
       }
     );
   }
 
-  updateProduct(){
+
+  updateProduct() {
     const data = {
-      title:"pantalones",
-      price:35,
-      description:"ropa / Andres Montoya",
-      images:["https://empresas.blogthinkbig.com/wp-content/uploads/2019/11/Imagen3-245003649.jpg?w=800"],
-      categoryId:1
+      title: "pantalones",
+      price: 35,
+      description: "Ropa Deportiva / Andres",
+      images: ["https://empresas.blogthinkbig.com/wp-content/uploads/2019/11/Imagen3-245003649.jpg?w=800"],
+      categoryId: 1
     }
-    const url = "https://api.escuelajs.co/api/v1/products/204";
-    this.httpClient.put(url, data).subscribe(
-      response => {console.log(response);
+    this.productHttpService.update( 120 ,data).subscribe(
+      response => {
+        console.log(response);
       }
     );
   }
 
-  deleteProduct(){
-    const url = "https://api.escuelajs.co/api/v1/products/408";
-    this.httpClient.delete(url).subscribe
-    (response => {console.log(response);});
-  }
+
+  //deleteProduct() {
+    //this.productHttpService.destroy().subscribe
+      //(response => { console.log(response); });
+  //}
 }
+
+
+
+
