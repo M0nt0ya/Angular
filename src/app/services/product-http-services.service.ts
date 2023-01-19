@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient as HttpClient } from '@angular/common/http';
 import { CreateProductDto, ProductModel, UpdateProductDto } from '../entities/product.module';
-
-
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -11,34 +10,33 @@ import { CreateProductDto, ProductModel, UpdateProductDto } from '../entities/pr
 export class ProductHttpServiceService {
   readonly API_URL = 'https://api.escuelajs.co/api/v1/products';
   constructor(private httpClient: HttpClient) { }
-
-
-  getAll(){
-    const url = `{API_URL}`;
-    return this.httpClient.get(url);
+  //Llama toda la lista
+  getAll(): Observable<ProductModel[]> {
+    const url = `${this.API_URL}`;
+    return this.httpClient.get<ProductModel[]>(url);
   }
-
-
-  getOne() {
-    const url = `{API_URL}/$(id)`;
-    return this.httpClient.get(url)
+  //Llama por id de la lista
+  getOne(id: ProductModel['id']): Observable<ProductModel> {
+    const url = `${this.API_URL}`;
+    return this.httpClient.get<ProductModel>(url)
   }
-
-
-  store(product: CreateProductDto) {
-    const url = `{API_URL}`;
-    return this.httpClient.post(url, product)
+  //Crea un id
+  store(product: CreateProductDto): Observable<ProductModel> {
+    const url = `${this.API_URL}`;
+    return this.httpClient.post<ProductModel>(url, product)
   }
-
-
-  update(id: number, product:UpdateProductDto) {
-    const url = `{API_URL}/$(id)`;
-    return this.httpClient.put(url, product)
+  //Actualiza por id
+  update(id: ProductModel['id'], product: UpdateProductDto): Observable<ProductModel> {
+    const url = `${this.API_URL}/${id}`;
+    return this.httpClient.put<ProductModel>(url, product)
   }
-
-
-  destroy(id: number) {
-    const url = `{API_URL}/$(id)`;
-    return this.httpClient.delete(url)
+  //Elimina por id
+  destroy(id: ProductModel['id']): Observable<ProductModel> {
+    const url = `${this.API_URL}/${id}`;
+    return this.httpClient.delete<ProductModel>(url)
   }
 }
+
+
+
+
