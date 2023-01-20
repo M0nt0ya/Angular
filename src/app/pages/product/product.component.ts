@@ -30,7 +30,7 @@ export class ProductComponent implements OnInit {
 
 
   getProduct() {
-    const response = this.productHttpService.getOne().subscribe
+    const response = this.productHttpService.getOne(1).subscribe
       (response => {
         console.log(response);
       });
@@ -69,10 +69,10 @@ export class ProductComponent implements OnInit {
   }
 
 
-  //deleteProduct() {
-    //this.productHttpService.destroy().subscribe
-      //(response => { console.log(response); });
-  //}
+  deleteProduct() {
+    this.productHttpService.destroy().subscribe
+      (response => { console.log(response); });
+  }
 }
 
 
